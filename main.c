@@ -22,7 +22,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         set23Low = true; // mark pin as has to go low eventually 
         lastStatePB0 = true;
 
-    } else if (lastStatePB0){
+    } else if (!(PINB & (1 << PB0)) && lastStatePB0){
         // PB0 is LOW, turn off PA1 (2 & 3)
         PORTA |= (1 << PA1); // set high for off
 
@@ -30,7 +30,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
         lastStatePB0 = false;
     }
-    
+
 
     if ((PINB & (1 << PB1)) && !lastStatePB1) {   //IGN 1 & 4
         // PB1 is HIGH
@@ -39,7 +39,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
         lastStatePB1 = true;
 
-    } else if (lastStatePB1){
+    } else if (!(PINB & (1 << PB1)) && lastStatePB1){
         // PB1 is LOW, turn off PA2 (1 & 4)
         PORTA |= (1 << PA2); // set high for off
 
