@@ -23,7 +23,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
         tempDelayCalc = TCNT1 - startTime14 - 75; //2.4ms setting
 
-        if (tempDelayCalc =< 0){
+        if (tempDelayCalc <= 0){
             delayBeforeLow = tempDelayCalc;
         } else {
             delayBeforeLow = 0;
@@ -48,7 +48,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
         tempDelayCalc = TCNT1 - startTime14 - 75; //2.4ms setting
 
-        if (tempDelayCalc =< 0){
+        if (tempDelayCalc <= 0){
             delayBeforeLow = tempDelayCalc;
         } else {
             delayBeforeLow = 0;
