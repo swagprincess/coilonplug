@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 volatile uint16_t delayBeforeLow = 125; //ticks at 8mhz prescaler 256, 4ms base pulse
+volatile int16_t tempDelayCalc = 0;
 volatile uint16_t startTime14 = 0;
 volatile uint16_t startTime23 = 0;
 volatile bool lastStatePB0 = false;
@@ -16,36 +17,52 @@ volatile bool set14Low = false;
 
 ISR(PCINT1_vect){ // interrupt for all port b pins
 
-    if ((PINB & (1 << PB0)) && !lastStatePB0) {   //IGN 2 & 3
-        // PB0 is HIGH 
-        startTime23 = TCNT1; // set timer timestamp
-        set23Low = true; // mark pin as has to go low eventually 
-        lastStatePB0 = true;
+    if (!(PINB & (1 << PB1)) && lastStatePB1){
+        // PB1 is LOW, turn off PA2 (1 & 4)
+        PORTA |= (1 << PA2); // set high for off
 
-    } else if (!(PINB & (1 << PB0)) && lastStatePB0){
-        // PB0 is LOW, turn off PA1 (2 & 3)
-        PORTA |= (1 << PA1); // set high for off
+        tempDelayCalc = TCNT1 - startTime14 - 75; //2.4ms setting
 
-        delayBeforeLow = TCNT1 - startTime23 - 75; //2.4ms setting
+        if (tempDelayCalc >= 0){
+            delayBeforeLow = tempDelayCalc;
+        } else {
+            delayBeforeLow = 0;
+        }
 
-        lastStatePB0 = false;
-    }
+        lastStatePB1 = false;
 
-
-    if ((PINB & (1 << PB1)) && !lastStatePB1) {   //IGN 1 & 4
+    } else if ((PINB & (1 << PB1)) && !lastStatePB1) {   //IGN 1 & 4
         // PB1 is HIGH
         startTime14 = TCNT1; // set timer timestamp
+
         set14Low = true; // mark pin as has to go low eventually 
 
         lastStatePB1 = true;
 
-    } else if (!(PINB & (1 << PB1)) && lastStatePB1){
-        // PB1 is LOW, turn off PA2 (1 & 4)
-        PORTA |= (1 << PA2); // set high for off
+    }
 
-        delayBeforeLow = TCNT1 - startTime14 - 75; //2.4ms setting
 
-        lastStatePB1 = false;
+    if (!(PINB & (1 << PB0)) && lastStatePB0){
+        // PB0 is LOW, turn off PA1 (2 & 3)
+        PORTA |= (1 << PA1); // set high for off
+
+        tempDelayCalc = TCNT1 - startTime14 - 75; //2.4ms setting
+
+        if (tempDelayCalc >= 0){
+            delayBeforeLow = tempDelayCalc;
+        } else {
+            delayBeforeLow = 0;
+        }
+
+        lastStatePB0 = false;
+
+    } else if ((PINB & (1 << PB0)) && !lastStatePB0) {   //IGN 2 & 3
+        // PB0 is HIGH 
+        startTime23 = TCNT1; // set timer timestamp
+
+        set23Low = true; // mark pin as has to go low eventually 
+
+        lastStatePB0 = true;
 
     }
      
