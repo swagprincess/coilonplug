@@ -5,7 +5,7 @@
 #include <avr/interrupt.h>
 #include <stdbool.h>
 
-volatile uint16_t delayBeforeHigh = 125; //ticks at 8mhz prescaler 256, 4ms base pulse
+volatile uint16_t delayBeforeLow = 125; //ticks at 8mhz prescaler 256, 4ms base pulse
 volatile uint16_t startTime14 = 0;
 volatile uint16_t startTime23 = 0;
 volatile bool lastStatePB0 = false;
@@ -14,9 +14,9 @@ volatile bool set23Low = false;
 volatile bool set14Low = false;
 
 
-ISR(PCINT0_vect){ // interrupt for all port b pins
+ISR(PCINT1_vect){ // interrupt for all port b pins
 
-    if ((PINB & (1 << PB0)) & !lastStatePB0) {   //IGN 2 & 3
+    if ((PINB & (1 << PB0)) && !lastStatePB0) {   //IGN 2 & 3
         // PB0 is HIGH 
         startTime23 = TCNT1; // set timer timestamp
         set23Low = true; // mark pin as has to go low eventually 
@@ -26,12 +26,13 @@ ISR(PCINT0_vect){ // interrupt for all port b pins
         // PB0 is LOW, turn off PA1 (2 & 3)
         PORTA |= (1 << PA1); // set high for off
 
-        delayBeforeHigh = TCNT1 - startTime23 - 75; //2.4ms setting
+        delayBeforeLow = TCNT1 - startTime23 - 75; //2.4ms setting
 
         lastStatePB0 = false;
     }
+    
 
-    if ((PINB & (1 << PB1)) & !lastStatePB1) {   //IGN 1 & 4
+    if ((PINB & (1 << PB1)) && !lastStatePB1) {   //IGN 1 & 4
         // PB1 is HIGH
         startTime14 = TCNT1; // set timer timestamp
         set14Low = true; // mark pin as has to go low eventually 
@@ -42,7 +43,7 @@ ISR(PCINT0_vect){ // interrupt for all port b pins
         // PB1 is LOW, turn off PA2 (1 & 4)
         PORTA |= (1 << PA2); // set high for off
 
-        delayBeforeHigh = TCNT1 - startTime14 - 75; //2.4ms setting
+        delayBeforeLow = TCNT1 - startTime14 - 75; //2.4ms setting
 
         lastStatePB1 = false;
 
@@ -53,35 +54,36 @@ ISR(PCINT0_vect){ // interrupt for all port b pins
 
 int main() {
 
-    //set output ports as output and set high
+    //set output pins as output and set high
     DDRA |= ((1 << DDA1) | (1<< DDA2));
     PORTA |= ((1 << PA1) | (1 << PA2));
 
-    //set input ports as input
+    //set input pins as input
     DDRB &= ~((1 << DDB0) | (1 << DDB1));
 
     TCCR1B = 0; // stop timer
 
     TCCR1B |= (1 << CS12); // start timer at prescaler 256
 
+    GIMSK |= (1 << PCIE1); //enable group 1 pin interrupts
+    PCMSK1 |= (1 << PCINT8) | (1 << PCINT9); // allow pins to trigger interrupt
+
     sei(); //enable interrupts
 
 
     while (1){
         if (set23Low){
-            if (startTime23 + delayBeforeHigh <= TCNT1){
+            if ((uint16_t)(TCNT1 - startTime23) >= delayBeforeLow){
                 PORTA &= ~(1 << PA1); // set low to start trigger
                 set23Low = false;
             }
         }
         if (set14Low){
-            if (startTime14 + delayBeforeHigh <= TCNT1){
+            if ((uint16_t)(TCNT1 - startTime14) >= delayBeforeLow){
                 PORTA &= ~(1 << PA2); // set low to start trigger
                 set14Low = false;
             }
         }
     }
-
-
 
 }
