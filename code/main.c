@@ -19,7 +19,7 @@ volatile uint8_t set14Low = false;
 
 ISR(PCINT1_vect){ // interrupt for all port b pins
 
-    cli(); //disable interrupts to avoid infinite loops and 16 bit on 8 bit cpu nonsense
+    // done automatically? cli(); //disable interrupts to avoid infinite loops and 16 bit on 8 bit cpu nonsense
 
     if (!(PINB & (1 << PB1)) && lastStatePB1){    //IGN 1 & 4
         // PB1 is LOW, turn off PA2 (1 & 4)
@@ -70,7 +70,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
     }
 
-    sei(); //enable again
+    // done automatically? sei(); //enable again
      
 }
 
