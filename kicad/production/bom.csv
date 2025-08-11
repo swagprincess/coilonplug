@@ -1,5 +1,5 @@
 ﻿Designator,Footprint,Quantity,Value,LCSC Part #
-"C1, C5",0603,2,100n,C77055
+"C1, C5, C6",0603,3,100n,C77055
 C2,0603,1,10u,C2959727
 C3,0603,1,330n,C361106
 C4,CP_Radial_D18.0mm_P7.50mm,1,10000u,C700874

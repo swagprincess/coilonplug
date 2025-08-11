@@ -2571,6 +2571,12 @@
 		(uuid "d5c65e75-c783-4386-80d2-d3f0097cd209")
 	)
 	(junction
+		(at 196.85 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f38c8614-ebbd-467c-954e-c6c1cff484bf")
+	)
+	(junction
 		(at 67.31 95.25)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2685,6 +2691,16 @@
 			(type default)
 		)
 		(uuid "3a0f4ff2-b236-4e6c-9d94-60f8aa736913")
+	)
+	(wire
+		(pts
+			(xy 196.85 73.66) (xy 205.74 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3da0514f-d9b7-442d-acbc-7a12bb30ef4b")
 	)
 	(wire
 		(pts
@@ -2865,6 +2881,16 @@
 			(type default)
 		)
 		(uuid "aa717bbf-8e3c-48f7-91c8-19fda0d1cfb3")
+	)
+	(wire
+		(pts
+			(xy 196.85 66.04) (xy 205.74 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b00a7551-639c-46aa-a754-e0f5e1a9ac0c")
 	)
 	(wire
 		(pts
@@ -4737,6 +4763,85 @@
 			(project "copv2"
 				(path "/726ce0f7-60ce-4b01-bd07-dbcd478a7c25"
 					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 205.74 69.85 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "69d43304-b022-4a7c-916c-733f4cf1d719")
+		(property "Reference" "C6"
+			(at 209.55 68.5799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 209.55 71.1199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 206.7052 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 205.74 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 205.74 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part #" "C77055"
+			(at 205.74 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "4c366df1-2e96-4000-9c51-433af5a97841")
+		)
+		(pin "1"
+			(uuid "1aa784f6-c6e6-4015-98fd-619b9ba0b708")
+		)
+		(instances
+			(project "copv2"
+				(path "/726ce0f7-60ce-4b01-bd07-dbcd478a7c25"
+					(reference "C6")
 					(unit 1)
 				)
 			)
