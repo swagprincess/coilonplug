@@ -7,7 +7,7 @@
 #define true 1
 #define false 0
 
-volatile uint16_t delayBeforeLow = 125; //ticks at 8mhz prescaler 256, assume 4ms base pulse
+volatile uint16_t delayBeforeLow = 50; //ticks at 8mhz prescaler 256, assume 4ms base pulse and 2.4ms wanted
 volatile int16_t tempDelayCalc = 0;
 volatile uint16_t startTime14 = 0;
 volatile uint16_t startTime23 = 0;
