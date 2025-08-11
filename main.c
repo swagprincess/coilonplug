@@ -3,21 +3,25 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include <stdbool.h>
 
-volatile uint16_t delayBeforeLow = 125; //ticks at 8mhz prescaler 256, 4ms base pulse
+#define true 1
+#define false 0
+
+volatile uint16_t delayBeforeLow = 125; //ticks at 8mhz prescaler 256, assume 4ms base pulse
 volatile int16_t tempDelayCalc = 0;
 volatile uint16_t startTime14 = 0;
 volatile uint16_t startTime23 = 0;
-volatile bool lastStatePB0 = false;
-volatile bool lastStatePB1 = false;
-volatile bool set23Low = false;
-volatile bool set14Low = false;
+volatile uint8_t lastStatePB0 = false;
+volatile uint8_t lastStatePB1 = false;
+volatile uint8_t set23Low = false;
+volatile uint8_t set14Low = false;
 
 
 ISR(PCINT1_vect){ // interrupt for all port b pins
 
-    if (!(PINB & (1 << PB1)) && lastStatePB1){
+    cli(); //disable interrupts to avoid infinite loops and 16 bit on 8 bit cpu nonsense
+
+    if (!(PINB & (1 << PB1)) && lastStatePB1){    //IGN 1 & 4
         // PB1 is LOW, turn off PA2 (1 & 4)
         PORTA |= (1 << PA2); // set high for off
 
@@ -42,11 +46,11 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
     }
 
 
-    if (!(PINB & (1 << PB0)) && lastStatePB0){
+    if (!(PINB & (1 << PB0)) && lastStatePB0){    //IGN 2 & 3
         // PB0 is LOW, turn off PA1 (2 & 3)
         PORTA |= (1 << PA1); // set high for off
 
-        tempDelayCalc = TCNT1 - startTime14 - 75; //2.4ms setting
+        tempDelayCalc = TCNT1 - startTime23 - 75; //2.4ms setting
 
         if (tempDelayCalc <= 0){
             delayBeforeLow = tempDelayCalc;
@@ -65,11 +69,13 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         lastStatePB0 = true;
 
     }
+
+    sei(); //enable again
      
 }
 
 
-int main() {
+int main(void) {
 
     //set output pins as output and set high
     DDRA |= ((1 << DDA1) | (1<< DDA2));
@@ -90,16 +96,20 @@ int main() {
 
     while (1){
         if (set23Low){
+            cli(); //16 bit math and time sensitive stuff
             if ((uint16_t)(TCNT1 - startTime23) >= delayBeforeLow){
                 PORTA &= ~(1 << PA1); // set low to start trigger
                 set23Low = false;
             }
+            sei(); //enable interrupts
         }
         if (set14Low){
+            cli(); //16 bit math and time sensitive stuff
             if ((uint16_t)(TCNT1 - startTime14) >= delayBeforeLow){
                 PORTA &= ~(1 << PA2); // set low to start trigger
                 set14Low = false;
             }
+            sei(); //enable interrupts
         }
     }
 
