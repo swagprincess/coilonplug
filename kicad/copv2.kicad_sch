@@ -6521,6 +6521,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part #" "C32901"
+			(at 120.65 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "6"
 			(uuid "eb3a448c-66ff-49ad-91b6-df349cfebef0")
 		)
@@ -6678,6 +6687,15 @@
 			)
 		)
 		(property "Description" "Low-Power, Low-Offset Voltage, Dual Comparators, DIP-8/SOIC-8/TO-99-8"
+			(at 76.2 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part #" "C32901"
 			(at 76.2 72.39 0)
 			(effects
 				(font
@@ -6912,6 +6930,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC Part #" "C32901"
+			(at 76.2 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "6"
 			(uuid "eb3a448c-66ff-49ad-91b6-df349cfebef2")
 		)
@@ -7123,6 +7150,15 @@
 			)
 		)
 		(property "Description" "Positive 500mA 35V Linear Regulator, Fixed Output 5V, TO-252 (D-PAK)"
+			(at 165.1 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part #" "C58069"
 			(at 165.1 66.04 0)
 			(effects
 				(font

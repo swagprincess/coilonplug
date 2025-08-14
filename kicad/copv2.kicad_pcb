@@ -2226,6 +2226,19 @@
 				)
 			)
 		)
+		(property "LCSC Part #" "C32901"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5bfe29a6-b288-4e63-bfdc-ec92c7a757aa")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "SOIC*3.9x4.9mm*P1.27mm* DIP*W7.62mm* SOP*5.28x5.23mm*P1.27mm* VSSOP*3x3mm*P0.65mm* TSSOP*4.4x3mm*P0.65mm*")
 		(path "/d27aa382-ed3b-4604-9eaa-35fd725c83c8")
 		(sheetname "/")
@@ -4600,6 +4613,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC Part #" "C58069"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a426f340-3b2f-4527-85c0-ce8f0f976c88")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
