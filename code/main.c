@@ -3,14 +3,18 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 #define true 1
 #define false 0
 
-volatile uint16_t delayBeforeLow = 50; //ticks at 8mhz prescaler 256, assume 4ms base pulse and 2.4ms wanted
+volatile uint16_t delayBeforeLow = 100; //ticks at 8mhz prescaler 256, assume 6ms base pulse and 2.5ms wanted
 volatile int16_t tempDelayCalc = 0;
 volatile uint16_t startTime14 = 0;
 volatile uint16_t startTime23 = 0;
+volatile uint16_t timeToGoLow23 = 0;
+volatile uint16_t timeToGoLow14 = 0;
 volatile uint8_t lastStatePB0 = false;
 volatile uint8_t lastStatePB1 = false;
 volatile uint8_t set23Low = false;
@@ -19,58 +23,60 @@ volatile uint8_t set14Low = false;
 
 ISR(PCINT1_vect){ // interrupt for all port b pins
 
-    // done automatically? cli(); //disable interrupts to avoid infinite loops and 16 bit on 8 bit cpu nonsense
-
     if (!(PINB & (1 << PB1)) && lastStatePB1){    //IGN 1 & 4
         // PB1 is LOW, turn off PA2 (1 & 4)
         PORTA |= (1 << PA2); // set high for off
 
-        tempDelayCalc = TCNT1 - startTime14 - 75; //2.4ms setting
+       tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 70; //2.2ms
 
         if (tempDelayCalc >= 0){
             delayBeforeLow = tempDelayCalc;
         } else {
             delayBeforeLow = 0;
         }
+        lastStatePB1 = false; // false
+        
 
-        lastStatePB1 = false;
 
     } else if ((PINB & (1 << PB1)) && !lastStatePB1) {   //IGN 1 & 4
         // PB1 is HIGH
-        startTime14 = TCNT1; // set timer timestamp
+        startTime14 = (uint16_t)TCNT1; // set timer timestamp
+
+        timeToGoLow14 = (uint16_t)(startTime14 + delayBeforeLow);
 
         set14Low = true; // mark pin as has to go low eventually 
 
-        lastStatePB1 = true;
+        lastStatePB1 = true; // true
 
     }
+
 
 
     if (!(PINB & (1 << PB0)) && lastStatePB0){    //IGN 2 & 3
         // PB0 is LOW, turn off PA1 (2 & 3)
         PORTA |= (1 << PA1); // set high for off
 
-        tempDelayCalc = TCNT1 - startTime23 - 75; //2.4ms setting
+       tempDelayCalc = (uint16_t)(TCNT1 - startTime23) - 70; //2.2ms
 
         if (tempDelayCalc >= 0){
             delayBeforeLow = tempDelayCalc;
         } else {
             delayBeforeLow = 0;
         }
-
-        lastStatePB0 = false;
+        lastStatePB0 = false; // false
 
     } else if ((PINB & (1 << PB0)) && !lastStatePB0) {   //IGN 2 & 3
-        // PB0 is HIGH 
-        startTime23 = TCNT1; // set timer timestamp
+        // PB0 is HIGH
+        startTime23 = (uint16_t)TCNT1; // set timer timestamp
+
+        timeToGoLow23 = (uint16_t)(startTime23 + delayBeforeLow);
 
         set23Low = true; // mark pin as has to go low eventually 
 
-        lastStatePB0 = true;
+        lastStatePB0 = true; // true
 
     }
 
-    // done automatically? sei(); //enable again
      
 }
 
@@ -97,15 +103,15 @@ int main(void) {
     while (1){
         if (set23Low){
             cli(); //16 bit math and time sensitive stuff
-            if ((uint16_t)(TCNT1 - startTime23) >= delayBeforeLow){
+            if ((uint16_t)TCNT1 >= timeToGoLow23){
                 PORTA &= ~(1 << PA1); // set low to start trigger
                 set23Low = false;
             }
             sei(); //enable interrupts
         }
         if (set14Low){
-            cli(); //16 bit math and time sensitive stuff
-            if ((uint16_t)(TCNT1 - startTime14) >= delayBeforeLow){
+            cli(); //16 bit math and time sensitive stuff 
+            if ((uint16_t)TCNT1 >= timeToGoLow14){
                 PORTA &= ~(1 << PA2); // set low to start trigger
                 set14Low = false;
             }
