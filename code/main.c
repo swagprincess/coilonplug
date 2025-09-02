@@ -15,11 +15,11 @@ volatile uint16_t startTime14 = 0;
 volatile uint16_t startTime23 = 0;
 volatile uint16_t timeToGoLow23 = 0;
 volatile uint16_t timeToGoLow14 = 0;
+volatile uint8_t pulses = 0;
 volatile uint8_t lastStatePB0 = false;
 volatile uint8_t lastStatePB1 = false;
 volatile uint8_t set23Low = false;
-volatile uint8_t set14Low = false;
-
+volatile uint8_t set14Low = false; 
 
 ISR(PCINT1_vect){ // interrupt for all port b pins
 
@@ -27,7 +27,11 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         // PB1 is LOW, turn off PA2 (1 & 4)
         PORTA |= (1 << PA2); // set high for off
 
-       tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 70; //2.2ms
+        tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 70; //2.2ms
+        if (pulses <= 20){
+            tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 109; // 3.5ms
+            pulses = pulses + 1;
+        }
 
         if (tempDelayCalc >= 0){
             delayBeforeLow = tempDelayCalc;
@@ -56,7 +60,11 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         // PB0 is LOW, turn off PA1 (2 & 3)
         PORTA |= (1 << PA1); // set high for off
 
-       tempDelayCalc = (uint16_t)(TCNT1 - startTime23) - 70; //2.2ms
+        tempDelayCalc = (uint16_t)(TCNT1 - startTime23) - 70; //2.2ms
+        if (pulses <= 20){
+            tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 109; // 3.5ms
+            pulses = pulses + 1;
+        }        
 
         if (tempDelayCalc >= 0){
             delayBeforeLow = tempDelayCalc;
