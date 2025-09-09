@@ -10,4 +10,4 @@ Written in C for an AtTiny84A, for speed
 
 <img src="pictures/boardprogramming.jpg" alt="" width="500"/>
 
-<img src="pictures/install.jpg" alt="" width="500"/>
+<img src="pictures/install.jpg" alt="" width="500" height="500"/>
