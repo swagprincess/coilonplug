@@ -8,6 +8,6 @@ Current setting is 70 "ticks" of TIMER1, around 2.2ms, correct for toyota cop's 
 
 Written in C for an AtTiny84A, for speed
 
-<img src="pictures/boardprogramming.jpg" alt="" width="500"/>
+<img src="pictures/boardprogramming.jpg" alt="" width="500" height="500"/>
 
 <img src="pictures/install.jpg" alt="" width="500" height="500"/>
