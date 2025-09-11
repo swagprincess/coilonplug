@@ -9,7 +9,7 @@
 #define true 1
 #define false 0
 
-volatile uint16_t delayBeforeLow = 40; //ticks at 8mhz prescaler 256, assume 5ms base pulse and 3.5ms ish for first pulse
+volatile uint16_t delayBeforeLow = 0;  // passthrough test //ticks at 8mhz prescaler 256, assume 5ms base pulse and 3.5ms ish for first pulse
 volatile int16_t tempDelayCalc = 0;
 volatile uint16_t startTime14 = 0;
 volatile uint16_t startTime23 = 0;
@@ -28,8 +28,8 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         PORTA |= (1 << PA2); // set high for off
 
         tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 70; //2.2ms
-        if (pulses <= 20){
-            tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 109; // 3.5ms
+        if (pulses <= 30){
+            tempDelayCalc = 0; // 3.5ms
             pulses = pulses + 1;
         }
 
@@ -61,8 +61,8 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         PORTA |= (1 << PA1); // set high for off
 
         tempDelayCalc = (uint16_t)(TCNT1 - startTime23) - 70; //2.2ms
-        if (pulses <= 20){
-            tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 109; // 3.5ms
+        if (pulses <= 30){
+            tempDelayCalc = 0; // 3.5ms
             pulses = pulses + 1;
         }        
 
