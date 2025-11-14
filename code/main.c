@@ -25,7 +25,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
     if (!(PINB & (1 << PB1)) && lastStatePB1){    //IGN 1 & 4
         // PB1 is LOW, turn off PA2 (1 & 4)
-        PORTA |= (1 << PA2); // set high for off
+        PORTA |= (1 << PA1); // set high for off
 
         tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 70; //2.2ms
         if (pulses <= 30){
@@ -58,7 +58,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
     if (!(PINB & (1 << PB0)) && lastStatePB0){    //IGN 2 & 3
         // PB0 is LOW, turn off PA1 (2 & 3)
-        PORTA |= (1 << PA1); // set high for off
+        PORTA |= (1 << PA2); // set high for off
 
         tempDelayCalc = (uint16_t)(TCNT1 - startTime23) - 70; //2.2ms
         if (pulses <= 30){
@@ -112,7 +112,7 @@ int main(void) {
         if (set23Low){
             cli(); //16 bit math and time sensitive stuff
             if ((uint16_t)TCNT1 >= timeToGoLow23){
-                PORTA &= ~(1 << PA1); // set low to start trigger
+                PORTA &= ~(1 << PA2); // set low to start trigger
                 set23Low = false;
             }
             sei(); //enable interrupts
@@ -120,7 +120,7 @@ int main(void) {
         if (set14Low){
             cli(); //16 bit math and time sensitive stuff 
             if ((uint16_t)TCNT1 >= timeToGoLow14){
-                PORTA &= ~(1 << PA2); // set low to start trigger
+                PORTA &= ~(1 << PA1); // set low to start trigger
                 set14Low = false;
             }
             sei(); //enable interrupts
