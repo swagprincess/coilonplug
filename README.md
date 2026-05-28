@@ -1,10 +1,10 @@
-# Dwell coverter board
+# Dwell converter board
 
 This board lets you use a Toyota/Audi/etc "coil on plug" ignition system with the stock ecu in a Mazda MX5/Miata (1989-2005).
 
 The board will take in a variable dwell signal for the stock coilpack and output a (falling edge synchronised) stable, adjustable dwell pulse.
 
-Current setting is 70 "ticks" of TIMER1, around 2.2ms, correct for Toyota COP's at running voltages (accounting for voltage drop in car wiring).
+Current setting is 70 "ticks" of TIMER1, around 2.2ms, correct for Toyota COP's at running voltages (should be good for Audi R8 coils too).
 
 Written in C for an AtTiny84A.
 
