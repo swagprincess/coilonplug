@@ -3757,7 +3757,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C98220"
+		(property "LCSC Part #" "C116677"
 			(at 119.38 127 90)
 			(hide yes)
 			(show_name no)
@@ -4262,7 +4262,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C98220"
+		(property "LCSC Part #" "C116677"
 			(at 119.38 102.87 90)
 			(hide yes)
 			(show_name no)
@@ -4509,7 +4509,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C98220"
+		(property "LCSC Part #" "C116677"
 			(at 45.72 40.64 90)
 			(hide yes)
 			(show_name no)
@@ -4835,6 +4835,17 @@
 			)
 		)
 		(property "Description" "Positive 100mA 30V Linear Regulator, Fixed Output 5V, SOT-89"
+			(at 162.56 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C42738"
 			(at 162.56 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -5592,7 +5603,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C98220"
+		(property "LCSC Part #" "C116677"
 			(at 45.72 74.93 90)
 			(hide yes)
 			(show_name no)

@@ -55,7 +55,6 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
     }
 
 
-
     if (!(PINB & (1 << PB0)) && lastStatePB0){    //IGN 2 & 3
         // PB0 is LOW, turn off PA1 (2 & 3)
         PORTA |= (1 << PA2); // set high for off

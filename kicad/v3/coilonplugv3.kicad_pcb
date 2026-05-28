@@ -34,6 +34,49 @@
 		(45 "User.4" user)
 	)
 	(setup
+		(stackup
+			(layer "F.SilkS"
+				(type "Top Silk Screen")
+				(color "White")
+			)
+			(layer "F.Paste"
+				(type "Top Solder Paste")
+			)
+			(layer "F.Mask"
+				(type "Top Solder Mask")
+				(color "Black")
+				(thickness 0.01)
+			)
+			(layer "F.Cu"
+				(type "copper")
+				(thickness 0.035)
+			)
+			(layer "dielectric 1"
+				(type "core")
+				(thickness 1.51)
+				(material "FR4")
+				(epsilon_r 4.5)
+				(loss_tangent 0.02)
+			)
+			(layer "B.Cu"
+				(type "copper")
+				(thickness 0.035)
+			)
+			(layer "B.Mask"
+				(type "Bottom Solder Mask")
+				(color "Black")
+				(thickness 0.01)
+			)
+			(layer "B.Paste"
+				(type "Bottom Solder Paste")
+			)
+			(layer "B.SilkS"
+				(type "Bottom Silk Screen")
+				(color "White")
+			)
+			(copper_finish "None")
+			(dielectric_constraints no)
+		)
 		(pad_to_mask_clearance 0)
 		(allow_soldermask_bridges_in_footprints no)
 		(tenting
@@ -746,7 +789,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C98220"
+		(property "LCSC Part #" "C116677"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2050,7 +2093,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C98220"
+		(property "LCSC Part #" "C116677"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2166,7 +2209,7 @@
 		(descr "SOT-89-3, http://ww1.microchip.com/downloads/en/DeviceDoc/3L_SOT-89_MB_C04-029C.pdf")
 		(tags "SOT-89-3")
 		(property "Reference" "U4"
-			(at 3.6375 -3.25 0)
+			(at 3.2375 -2.85 0)
 			(layer "F.SilkS")
 			(uuid "3742ddaf-4c82-40a9-8416-880e565b2d3c")
 			(effects
@@ -2210,6 +2253,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC Part #" "C42738"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7d680289-b7c0-425b-95bb-d2742ad4c5da")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -2782,7 +2838,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C98220"
+		(property "LCSC Part #" "C116677"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -2898,7 +2954,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C1"
-			(at 2.5 0 180)
+			(at 2.15 0.05 180)
 			(layer "F.SilkS")
 			(uuid "6a1e9895-f0d8-48a5-954e-1dc27b722e56")
 			(effects
@@ -4891,7 +4947,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C98220"
+		(property "LCSC Part #" "C116677"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9359,6 +9415,15 @@
 		(uuid "48f97fdf-ac52-433e-bf82-09a5fd998882")
 	)
 	(via
+		(at 178 74.75)
+		(size 0.6)
+		(drill 0.3)
+		(layers "F.Cu" "B.Cu")
+		(free yes)
+		(net "GND")
+		(uuid "4f0f5e45-ea60-4d72-90c8-b654ff466772")
+	)
+	(via
 		(at 183 105.25)
 		(size 0.6)
 		(drill 0.3)
@@ -9550,6 +9615,15 @@
 		(uuid "ef9e95e4-7fc6-47da-9c45-5bc7b8fb13c1")
 	)
 	(via
+		(at 179.75 74.8)
+		(size 0.6)
+		(drill 0.3)
+		(layers "F.Cu" "B.Cu")
+		(free yes)
+		(net "GND")
+		(uuid "f20815cc-205f-4225-b09c-f005151a1d78")
+	)
+	(via
 		(at 178 104.9)
 		(size 0.6)
 		(drill 0.3)
@@ -9557,6 +9631,14 @@
 		(free yes)
 		(net "GND")
 		(uuid "f760e06d-48c8-4b7f-9d88-db00ac123d2a")
+	)
+	(via
+		(at 178.9 76.5)
+		(size 0.6)
+		(drill 0.3)
+		(layers "F.Cu" "B.Cu")
+		(net "GND")
+		(uuid "fc3cc94a-87c2-4158-bf49-40db92cbb4f3")
 	)
 	(segment
 		(start 174.8 78.524999)
