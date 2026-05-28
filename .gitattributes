@@ -1,0 +1,2 @@
+code/makefile linguist-vendored
+*.html linguist-vendored
