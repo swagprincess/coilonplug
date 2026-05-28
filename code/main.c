@@ -27,22 +27,45 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         // PB1 is LOW, turn off PA2 (1 & 4)
         PORTA |= (1 << PA1); // set high for off
 
-        tempDelayCalc = (uint16_t)(TCNT1 - startTime14) - 70; //2.2ms
+        delayBeforeLow = (uint16_t)(TCNT1 - startTime14) - 70; //2.2ms
         if (pulses <= 30){
-            tempDelayCalc = 0; // 3.5ms
+            delayBeforeLow = (uint16_t)(TCNT1 - startTime14) - 110; // 3.5ms for startup first 30 igniton events
             pulses = pulses + 1;
         }
 
-        if (tempDelayCalc >= 0){
-            delayBeforeLow = tempDelayCalc;
-        } else {
-            delayBeforeLow = 0;
-        }
+        //if (tempDelayCalc >= 0){
+        //    delayBeforeLow = tempDelayCalc;
+        //} else {
+        //    delayBeforeLow = 0;
+        //}
         lastStatePB1 = false; // false
         
 
 
-    } else if ((PINB & (1 << PB1)) && !lastStatePB1) {   //IGN 1 & 4
+    }
+
+    
+    if (!(PINB & (1 << PB0)) && lastStatePB0){    //IGN 2 & 3
+        // PB0 is LOW, turn off PA1 (2 & 3)
+        PORTA |= (1 << PA2); // set high for off
+
+        delayBeforeLow = (uint16_t)(TCNT1 - startTime23) - 70; //2.2ms
+        if (pulses <= 30){
+            delayBeforeLow = (uint16_t)(TCNT1 - startTime23) - 110; // 3.5ms for startup first 30 igniton events
+            pulses = pulses + 1;
+        }
+
+        //if (tempDelayCalc >= 0){
+        //    delayBeforeLow = tempDelayCalc;
+        //} else {
+        //    delayBeforeLow = 0;
+        //}
+        lastStatePB0 = false; // false
+
+    }
+
+
+    if ((PINB & (1 << PB1)) && !lastStatePB1) {   //IGN 1 & 4
         // PB1 is HIGH
         startTime14 = (uint16_t)TCNT1; // set timer timestamp
 
@@ -54,25 +77,8 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
     }
 
-
-    if (!(PINB & (1 << PB0)) && lastStatePB0){    //IGN 2 & 3
-        // PB0 is LOW, turn off PA1 (2 & 3)
-        PORTA |= (1 << PA2); // set high for off
-
-        tempDelayCalc = (uint16_t)(TCNT1 - startTime23) - 70; //2.2ms
-        if (pulses <= 30){
-            tempDelayCalc = 0; // 3.5ms
-            pulses = pulses + 1;
-        }        
-
-        if (tempDelayCalc >= 0){
-            delayBeforeLow = tempDelayCalc;
-        } else {
-            delayBeforeLow = 0;
-        }
-        lastStatePB0 = false; // false
-
-    } else if ((PINB & (1 << PB0)) && !lastStatePB0) {   //IGN 2 & 3
+ 
+    if ((PINB & (1 << PB0)) && !lastStatePB0) {   //IGN 2 & 3
         // PB0 is HIGH
         startTime23 = (uint16_t)TCNT1; // set timer timestamp
 
@@ -83,7 +89,6 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         lastStatePB0 = true; // true
 
     }
-
      
 }
 

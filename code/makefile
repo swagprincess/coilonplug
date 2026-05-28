@@ -40,7 +40,7 @@ FORMAT = ihex
 TARGET = main
 SRC = $(TARGET).c
 ASRC =
-OPT = s
+OPT = 2 #-O2 equivalent
 
 # Name of this Makefile (used for "make depend").
 MAKEFILE = makefile
