@@ -10,7 +10,6 @@
 #define false 0
 
 volatile uint16_t delayBeforeLow = 0;  // passthrough test //ticks at 8mhz prescaler 256, assume 5ms base pulse and 3.5ms ish for first pulse
-volatile int16_t tempDelayCalc = 0;
 volatile uint16_t startTime14 = 0;
 volatile uint16_t startTime23 = 0;
 volatile uint16_t timeToGoLow23 = 0;
@@ -36,14 +35,6 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
             pulses = pulses + 1;
         }
 
-        //if (tempDelayCalc >= 0){
-        //    delayBeforeLow = tempDelayCalc;
-        //} else {
-        //    delayBeforeLow = 0;
-        //}
-        //lastState14 = false; // false
-        
-
         lastState14 = false;
     }
 
@@ -57,13 +48,6 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
             delayBeforeLow = (uint16_t)(TCNT1 - startTime23) - 110; // 3.5ms for startup first 30 igniton events
             pulses = pulses + 1;
         }
-
-        //if (tempDelayCalc >= 0){
-        //    delayBeforeLow = tempDelayCalc;
-        //} else {
-        //    delayBeforeLow = 0;
-        //}
-        //lastState23 = false; // false
 
         lastState23 = false;
     }
