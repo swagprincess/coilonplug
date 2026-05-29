@@ -72,6 +72,10 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         // PB1 is HIGH
         startTime14 = (uint16_t)TCNT1; // set timer timestamp
 
+        if (delayBeforeLow < 1){
+            delayBeforeLow = 0;
+        }
+
         timeToGoLow14 = (uint16_t)(startTime14 + delayBeforeLow);
 
         set14Low = true; // mark pin as has to go low eventually 
@@ -83,6 +87,10 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
     if (pins & (1 << PB0)) {   //IGN 2 & 3
         // PB0 is HIGH
         startTime23 = (uint16_t)TCNT1; // set timer timestamp
+
+        if (delayBeforeLow < 1){
+            delayBeforeLow = 0;
+        }
 
         timeToGoLow23 = (uint16_t)(startTime23 + delayBeforeLow);
 
