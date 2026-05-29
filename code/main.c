@@ -16,8 +16,8 @@ volatile uint16_t startTime23 = 0;
 volatile uint16_t timeToGoLow23 = 0;
 volatile uint16_t timeToGoLow14 = 0;
 volatile uint8_t pulses = 0;
-//volatile uint8_t lastState23 = false;
-//volatile uint8_t lastState14 = false;
+volatile uint8_t lastState23 = false;
+volatile uint8_t lastState14 = false;
 volatile uint8_t set23Low = false;
 volatile uint8_t set14Low = false;
 
@@ -26,7 +26,7 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
     uint8_t pins = PINB;
 
-    if (!(pins & (1 << PB1))){    //IGN 1 & 4
+    if (!(pins & (1 << PB1)) && lastState14){    //IGN 1 & 4
         // PB1 is LOW, turn off PA2 (1 & 4)
         PORTA |= (1 << PA1); // set high for off
 
@@ -44,11 +44,11 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         //lastState14 = false; // false
         
 
-
+        lastState14 = false;
     }
 
     
-    if (!(pins & (1 << PB0))){    //IGN 2 & 3
+    if (!(pins & (1 << PB0)) && lastState23){    //IGN 2 & 3
         // PB0 is LOW, turn off PA1 (2 & 3)
         PORTA |= (1 << PA2); // set high for off
 
@@ -65,10 +65,11 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         //}
         //lastState23 = false; // false
 
+        lastState23 = false;
     }
 
 
-    if (pins & (1 << PB1)) {   //IGN 1 & 4
+    if ((pins & (1 << PB1)) && !lastState14) {   //IGN 1 & 4
         // PB1 is HIGH
         startTime14 = (uint16_t)TCNT1; // set timer timestamp
 
@@ -80,11 +81,11 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
 
         set14Low = true; // mark pin as has to go low eventually 
 
-
+        lastState14 = true;
     }
 
  
-    if (pins & (1 << PB0)) {   //IGN 2 & 3
+    if ((pins & (1 << PB0)) && !lastState23) {   //IGN 2 & 3
         // PB0 is HIGH
         startTime23 = (uint16_t)TCNT1; // set timer timestamp
 
@@ -95,7 +96,8 @@ ISR(PCINT1_vect){ // interrupt for all port b pins
         timeToGoLow23 = (uint16_t)(startTime23 + delayBeforeLow);
 
         set23Low = true; // mark pin as has to go low eventually 
-
+        
+        lastState23 = true;
     }
      
 }
